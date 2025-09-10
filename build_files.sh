@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Install dependencies
-python -m pip install -r requirements.txt
+python3.12 -m pip install -r requirements.txt
 
 # Reset and create database tables
-python manage.py reset_db
+python3.12 manage.py reset_db
 
 # Collect static files
-python manage.py collectstatic --noinput --clear
+python3.12 manage.py collectstatic --noinput --clear
