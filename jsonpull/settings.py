@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -23,14 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-y4aza=*@j*0=g*w&j%w0&0u4vp9^+yj@3g2$j1hw#djorb6w3r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-import os
-DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
+DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app', 'localhost']
-
-# Add CORS headers for API access
-CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOW_CREDENTIALS = True
+ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app']
 
 
 # Application definition
@@ -42,14 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'corsheaders',
     'jsonpullshow',
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -81,29 +73,16 @@ WSGI_APPLICATION = 'jsonpull.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# Use environment variable to determine database configuration
-import os
-
-if os.environ.get('DATABASE_URL'):
-    # Production database (Vercel/Supabase)
-    DATABASES = {
-        'default': {
-            'ENGINE':   'django.db.backends.postgresql',
-            'NAME':     'postgres',
-            'USER':     'postgres.jcycobkzohrufmonwtko',
-            'PASSWORD': '0954852404',
-            'HOST':     'aws-1-ap-southeast-1.pooler.supabase.com',
-            'PORT':     '5432',
-        }
+DATABASES = {
+    'default': {
+        'ENGINE':   'django.db.backends.postgresql',
+        'NAME':     'postgres',
+        'USER':     'postgres.jcycobkzohrufmonwtko',
+        'PASSWORD': '0954852404',
+        'HOST':     'aws-1-ap-southeast-1.pooler.supabase.com',
+        'PORT':     '5432',
     }
-else:
-    # Development database (SQLite)
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
+}
 
 
 # Password validation
@@ -140,18 +119,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    Path.joinpath(BASE_DIR, 'statics'),
-]
+STATIC_URL = 'static/'
+
+STATIC_URL = 'static/'
+STATICFILES_DIRS = [Path.joinpath(BASE_DIR, 'statics')]
 STATIC_ROOT = Path.joinpath(BASE_DIR, 'staticfiles_build', 'static')
 
-# Whitenoise configuration for static files
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-# Media files configuration
 MEDIA_URL = '/media/'
-MEDIA_ROOT = Path.joinpath(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 # Default primary key field type
